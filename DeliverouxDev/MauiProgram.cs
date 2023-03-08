@@ -1,5 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DeliverouxDev.Applications;
+using DeliverouxDev.Authentication;
+using Microsoft.Extensions.Logging;
 using DeliverouxDev.Data;
+using DeliverouxDev.Infrastructures;
+using Microsoft.AspNetCore.Components.Authorization;
+using MediatR;
 
 namespace DeliverouxDev;
 
@@ -14,6 +19,13 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
+
+		builder.Services.AddAuthorizationCore();
+		builder.Services.AddUseCase();
+		builder.Services.AddMediatR(typeof(Applications.DependencyInjection).Assembly);
+		builder.Services.AddRepository();
+		builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+		builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomAuthenticationStateProvider>());
 
 		builder.Services.AddMauiBlazorWebView();
 
