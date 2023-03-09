@@ -5,6 +5,8 @@ using DeliverouxDev.Data;
 using DeliverouxDev.Infrastructures;
 using Microsoft.AspNetCore.Components.Authorization;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 
 namespace DeliverouxDev;
 
@@ -26,8 +28,8 @@ public static class MauiProgram
 		builder.Services.AddRepository();
 		builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 		builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomAuthenticationStateProvider>());
-
-		builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddMudServices();
+        builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();

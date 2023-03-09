@@ -1,0 +1,6 @@
+@page "/Statistics"
+<h3>Statistics</h3>
+
+<MudPaper Class="pa-4">
+    <MudChart ChartType="ChartType.Pie" InputData="@data" @bind-SelectedIndex="Index" InputLabels="@dataLabel" Width="300px" Height="300px"></MudChart>
+</MudPaper>

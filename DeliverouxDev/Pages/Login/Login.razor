@@ -2,10 +2,12 @@
 @using DeliverouxDev.Models
 @using DeliverouxDev.Authentication
 @using DeliverouxDev.Infrastructures.Repository
+@using MediatR
 @using Microsoft.AspNetCore.Components
+@using DeliverouxDev.Applications.UseCase.Login
 @inject NavigationManager Navigation;
 @inject CustomAuthenticationStateProvider AuthStateProvider;
-
+@inject IMediator Mediator;
 <h3>Login to Access Application</h3>
 
 <div class="alert alert-info">
@@ -36,17 +38,12 @@
 
     private async Task HandleValidSubmit()
     {
-        var repo = new ConnexionRepository();
-        await repo.Login(loginModel.Username, loginModel.Password);
-    //Valiate user acount
-        var successful = loginModel.ValidateLogin(out string jwtToken);
-
-    //Not successful, don't need to do anything
-        if (!successful)
+        var login = await Mediator.Send(new InputLoginUseCase(loginModel.Username, loginModel.Password));
+        
+        if(login.token is null)
             return;
-
-    //Call login and recirect
-        await AuthStateProvider.Login(jwtToken);
-        Navigation.NavigateTo(""); //Root URL
+        
+        await AuthStateProvider.Login(login.token);
+        Navigation.NavigateTo(""); 
     }
 }
