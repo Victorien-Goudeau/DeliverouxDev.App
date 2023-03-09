@@ -1,0 +1,30 @@
+﻿@using DeliverouxDev.Pages.Account.ViewModel
+
+@page "/account"
+
+<MudTable @ref="table" Elevation="0" Items="@users" Height="80vh" Hover="true" Breakpoint="Breakpoint.Sm" Virtualize="true" FixedHeader="true" T="UserViewModel"
+          CommitEditTooltip="Valider"
+          CanCancelEdit="true"
+          OnCancelEditClick="DeleteUser"
+          RowEditPreview="ItemPreviewChanged"
+          RowEditCommit="ItemHasBeenChanged"
+          RowEditCancel="ItemHasBeenChanged"
+          OnCommitEditClick="SaveUser">
+    <HeaderContent>
+        <MudTh>Prénom</MudTh>
+        <MudTh>Nom</MudTh>
+        <MudTh>Mail</MudTh>
+        <MudTh>Téléphone</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Prénom">@context.firstname</MudTd>
+        <MudTd DataLabel="Nom">@context.lastname</MudTd>
+        <MudTd DataLabel="Mail">@context.mail</MudTd>
+        <MudTd DataLabel="Téléphone">@context.phone</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate Context="currentContext">
+        <MudTd DataLabel="Prénom">
+            <DeliverouxTextField Label="Prénom" @bind-Value="currentContext.firstname" For="() => currentContext.firstname" />
+        </MudTd>
+    </RowEditingTemplate>
+</MudTable>
